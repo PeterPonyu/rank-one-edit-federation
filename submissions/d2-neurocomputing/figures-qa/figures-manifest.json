@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "selection": "manuscript body figA\u2013figE",
+  "count": 5,
+  "figures": [
+    {
+      "name": "figA",
+      "source": "figures-src/figA.pdf",
+      "png": "figure-figA.png",
+      "dimensions": "1010x621",
+      "bytes": 59033,
+      "sha256": "04df33a0dace31b39a50ed70b2ebca438c581f0b3015ee74c7f0f8bce64f80b6"
+    },
+    {
+      "name": "figB",
+      "source": "figures-src/figB.pdf",
+      "png": "figure-figB.png",
+      "dimensions": "1010x621",
+      "bytes": 78493,
+      "sha256": "4f9ec8f73f8fb6977761f02a520cd6b134f41f39bf5a4d5897ebd8c8f0279936"
+    },
+    {
+      "name": "figC",
+      "source": "figures-src/figC.pdf",
+      "png": "figure-figC.png",
+      "dimensions": "1010x580",
+      "bytes": 40420,
+      "sha256": "d2947de943fc811ba06aebb65fdc94d1c7d0b169d7c995ade8be7b500d592628"
+    },
+    {
+      "name": "figD",
+      "source": "figures-src/figD.pdf",
+      "png": "figure-figD.png",
+      "dimensions": "1010x621",
+      "bytes": 99627,
+      "sha256": "6ce4e8e463fb442bb133377f765ed6eb10337e2f4c0e42b50c08b338181f204f"
+    },
+    {
+      "name": "figE",
+      "source": "figures-src/figE.pdf",
+      "png": "figure-figE.png",
+      "dimensions": "1010x660",
+      "bytes": 117946,
+      "sha256": "b823b9f05886e0271c9440c3635988f116353d76c5a5504c845fb1a9d39dc658"
+    }
+  ],
+  "contact_sheet": "figures-contact-sheet.png",
+  "contact_sheet_sha256": "95435decb10b0fa47308e112609847384736a4000c8dc4d9cc7d5710c83700b2"
+}

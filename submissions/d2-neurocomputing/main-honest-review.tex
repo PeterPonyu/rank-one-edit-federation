@@ -1,22 +1,20 @@
-% D2 federation paper — HISTORICAL MIRROR (NON-AUTHORITATIVE).
-% The self-contained repaired deposit lives at
-% submissions/d2-neurocomputing/zenodo-deposit/; this older package is retained only
-% for historical comparison and must not be used as a synchronized release tree.
-% D2 federation paper — LaTeX rendering (elsarticle, KBS/Neurocomputing target).
-% This historical copy is not the canonical source of truth; the repaired deposit is authoritative.
-% GenAI declaration filled 2026-07-16 (writing-process declaration above References + research-process
-% sentence in S3 Reproducibility, per Elsevier two-track policy); \todoslot macro retained but has no live uses.
+% D2 federation paper — LaTeX rendering (elsarticle, Neurocomputing).
+% GenAI declaration filled 2026-07-16 (writing-process declaration above References
+% + research-process sentence in §3 Reproducibility, per Elsevier two-track policy).
 % Compile: pdflatex main (elsarticle.cls verified installed 2026-07-15).
 \documentclass[preprint,12pt]{elsarticle}
 \usepackage{amsmath,amssymb}
+\usepackage{amsthm}
+\newtheorem{proposition}{Proposition}
+\newtheorem{conjecture}{Conjecture}
+\theoremstyle{definition}
+\newtheorem{assumption}{Assumption}
 \usepackage{booktabs}
 \usepackage{graphicx}
 % Figures: R/ggplot2 -> tikzDevice -> STANDALONE-compiled PDFs (figures-src/, `make`).
 % The submission includes ONLY compiled PDF figures — no inline TikZ (portal-safe).
 \usepackage[hidelinks]{hyperref}
 \usepackage{xcolor}
-\newcommand{\todoport}[1]{\textcolor{red}{[TODO-PORT: #1]}}
-\newcommand{\todoslot}[1]{\textcolor{red}{[#1]}}
 \input{macros}
 % Absorb small residual line-overflows (long unbreakable compounds such as
 % "architecture-dependent crossover") without visible spacing defects.
@@ -28,16 +26,16 @@
 \renewcommand{\textfraction}{0.08}
 \renewcommand{\floatpagefraction}{0.8}
 
-\journal{Knowledge-Based Systems}
+\journal{Neurocomputing}
 
 \begin{document}
 \begin{frontmatter}
 
-\title{When Do Rank-One Knowledge Edits Merge? A Gain-Screened Two-Regime Law of Edit Federation}
+\title{{\color{red}\bfseries HONEST-STATE REVIEW DRAFT --- NOT SUBMISSION CANDIDATE}\\[1.5em]
+When Do Rank-One Knowledge Edits Merge? A Gain-Screened Two-Regime Law of Edit Federation}
 
-% KBS is SINGLE-anonymized (verified live 2026-07-16) => real author info on the title
-% page; byline filled 2026-07-16 from the author's standing identity (dl-research
-% CITATION.cff + C-neurocomputing submission block); SOLE AUTHOR.
+% SINGLE-anonymized review (author info disclosed).
+% Sole author: Zeyu Fu, Army Medical University, Chongqing, China.
 \author[1]{Zeyu Fu\corref{cor1}}
 \ead{fuzeyu09@gmail.com}
 \cortext[cor1]{Corresponding author.}
@@ -47,51 +45,62 @@ College of Preventive Medicine, Army Medical University},
 city={Chongqing}, country={China}}
 
 \begin{abstract}
-Maintaining a deployed language model's knowledge increasingly relies on rank-one
-weight edits that correct individual facts without retraining. As this matures,
-independently authored updates must be \emph{federated} into one model, and a
-maintainer must know, before merging, whether they will interfere. We present the
-first operating map of rank-one edit federation: \nCells{} model--layer cells across
-\nFamilies{} architecture families (1--20B), merge group sizes 2--20 (saturation
-confirmed through 100), three seeds, pre-registered gates. The map shows two regimes.
-In high-gain regimes, merged edits damage one another at every group size, predicted
-by key-geometry coherence. In low-gain regimes---deep layers of some
-architectures---small-group cross-talk is instead \emph{constructive}: aligned
-interference raises the members' target logits, then crosses to damage at an
-architecture-dependent group size. Because edits also install poorly there, the
-constructive regime marks where \emph{not} to place edits; its scientific value is the
-sign reversal itself. One measurable scalar, the layer's perturbation \emph{gain},
-estimated per model from a small calibration merge set on a staging copy, screens the
-regimes (rank correlation \ordSpearman{} with constructive fraction across the
-\nCells{} cells, $p=\ordSpearmanP{}$, 95\% CI $\ordSpearmanCI{}$; gate, threshold, and
-per-cell predictions frozen before the runs), is depth-gated within a model, and is
-neither scale- nor family-specific. The map yields a gain-screened, geometry-ordered
-admission rule for knowledge maintenance; in retrospective selection evaluations it
-avoids \benefitHighQtwofive{} logits of damage per admitted edit (at those edits' own
-facts) versus random admission at 25\% budget in high-gain regimes, beating
-magnitude-only ordering. Prospective deployment is future work.
+Methods for combining independently computed weight updates---task arithmetic, adapter
+fusion, editing composition---share one assumption: overlap between updates is
+monotonically harmful, so alignment should be minimized or whitened away. We falsify it
+for rank-one knowledge edits. Across \nCells{} model--layer cells
+spanning \nFamilies{} architecture families from 1B to 20B parameters, aligned cross-talk
+between merged edits \emph{reverses sign}. In some layers merged edits damage one another
+as predicted; in others---deep layers of several architectures, at every scale
+tested---the same interference systematically \emph{raises} the member edits' target
+logits before crossing to damage at an architecture-dependent group size. This is
+neither sign cancellation nor a failure of
+geometry to track cross-talk; what flips is that cross-talk's effect at the readout. One
+measurable scalar, the layer's perturbation \emph{gain}, orders the regimes (rank
+correlation \ordSpearman{} with constructive fraction, $p=\ordSpearmanP{}$, \nCells{}
+cells; gate constants and the directional prediction frozen before the runs), and a
+first-order readout model grounds it: gain ranks cells by the magnitude of the
+readout slope at the edit's operating point (a rank-level proxy, not a point
+estimate); the regime is that slope's sign. Two boundaries scope
+the law: key geometry predicts damage only in small merge groups, and in most low-gain
+cells edits also install weakly---so the constructive regime largely marks where edits
+should \emph{not} be placed, which the screen identifies a priori. Within these
+boundaries the map yields a gain-screened, geometry-ordered admission framework:
+retrospectively it avoids \benefitHighQtwofive{} logits of damage per admitted edit
+versus random admission at a 25\% budget in high-gain regimes.
 \end{abstract}
 
 \begin{keyword}
-knowledge editing \sep model merging \sep rank-one updates \sep interference
-prediction \sep model maintenance
+model merging \sep weight-space interference \sep rank-one weight updates \sep
+knowledge editing \sep large language models \sep neural network maintenance
 \end{keyword}
 \end{frontmatter}
 
 \section{Introduction}\label{sec:intro}
-Keeping the knowledge in a deployed language model current is now a maintenance task in
-its own right. Deployed models carry factual errors and stale or hallucinated associations
-that surface only after release~\cite{hallucinationsurvey2023}, and correcting them one fact
-at a time is far cheaper than retraining. Operators therefore increasingly apply
-\emph{post-hoc knowledge edits}: rank-one or low-rank weight updates that install, correct,
-or delete an individual fact in place~\cite{rome2022,memit2023,alphaedit2024}. As this practice matures, the unit
-of maintenance shifts from a single edit to a fleet of them. Several teams author updates
-independently---new product facts, corrected entities, retracted claims---and whoever owns
-the model must decide which updates to combine into the next build. We call this
-\emph{edit federation}: merging many independently authored edits into one deployed model.
-It is a decision-support problem for the maintainer, and it inherits a question the
-model-merging literature has studied only for task vectors and fine-tuned adapters: when do
-independently authored updates interfere, and can the interference be anticipated
+Composing independently computed weight-space updates into a single network has become a
+standard operation on trained models: task vectors are added, adapters are fused, and
+low-rank corrections are stacked, all without retraining. The operation is a
+superposition of perturbations in one shared parameter matrix, and its central open
+question is a question about neural computation rather than about bookkeeping: when
+several perturbations are applied at once, how does the network's readout combine them,
+and can the combined effect be anticipated from the perturbations themselves?
+
+Rank-one knowledge editing gives that question an unusually clean instance. Deployed
+models carry factual errors and stale or hallucinated associations that surface only
+after release~\cite{hallucinationsurvey2023}, and correcting them one fact at a time is
+far cheaper than retraining. Operators therefore increasingly apply \emph{post-hoc
+knowledge edits}: rank-one or low-rank weight updates that install, correct, or delete an
+individual fact in place~\cite{rome2022,memit2023,alphaedit2024}. Each such edit is a
+single rank-one perturbation of one linear map, specified by an explicit key/value pair,
+so the perturbation that one edit delivers at another edit's key has a closed form in the
+stored vectors---no training probes, no fitted surrogate. As the practice matures, the
+unit of maintenance also shifts from a single edit to a fleet of them: several teams
+author updates independently---new product facts, corrected entities, retracted
+claims---and whoever owns the model must decide which to combine into the next build. We
+call this \emph{edit federation}: merging many independently authored edits into one
+deployed model. It inherits, in analytically tractable form, the question the
+model-merging literature has studied only for task vectors and fine-tuned adapters: when
+do independently computed updates interfere, and can the interference be anticipated
 before any merge is committed?
 
 The prevailing answer is monotone: overlap causes interference. Task-arithmetic merging
@@ -116,9 +125,12 @@ through 100, three seeds, pre-registered gates): where key-geometry coherence pr
 signal is testable, and where damage saturates. To our knowledge this includes the first
 edit-federation measurements at and beyond 12B scale (to 20B), where we also find
 testable interference thinning out (Section~\ref{sec:limits}).
-\item \textbf{A two-regime law.} High-gain regimes are destructive at every group size with
-geometry-predicted damage (over-amplification, consistent with the adapter result
-of~\cite{mergeprobe2026}). Low-gain regimes are \emph{constructive at small group sizes}:
+\item \textbf{A two-regime law.} High-gain regimes are typically destructive across tested
+group sizes, with geometry predicting damage magnitude in frozen-gate-qualifying cells
+(over-amplification, consistent with the adapter result of~\cite{mergeprobe2026}).
+Cells that remain Mixed or Inconclusive under that gate are reported as such in
+Table~\ref{tab:width} --- we do not claim geometry prediction at every group size for every
+cell. Low-gain regimes are \emph{constructive at small group sizes}:
 aligned cross-talk raises the member edits' target logits, with an architecture-dependent
 crossover to damage. To our knowledge the \emph{sign} of this regime is without precedent:
 prior nonmonotone merging interactions~\cite{forkmerge2023,mergeprobe2026} all report that
@@ -128,32 +140,40 @@ perturbation \emph{gain}, measured once per model version from a small calibrati
 of merges on a staging copy (the per-edit ordering step below is vector-only; the layer
 screen is not)---orders
 the regimes (Spearman \ordSpearman{} with constructive fraction across all cells; the
-threshold and every per-cell prediction were frozen before the newest cells ran). The
+directional form of this claim, $\rho\leq-0.7$, was frozen in writing before the runs,
+while its measured value is descriptive --- Section~\ref{sec:prelim} draws the line
+exactly). The
 regime is depth-gated \emph{within} a model at fixed scale, is not scale-gated (a 1.5B model
 supplies the most extreme constructive trajectory --- though that model's pre-modern
 architecture is itself a residual axis, as Section~\ref{sec:law} notes), and is not
 family-gated. We state explicitly
 what the screen does not explain: at matched gain, architecture residuals in
 constructiveness remain.
-\item \textbf{Mechanistic localization.} The flip is not cosine sign-cancellation (signed
+\item \textbf{Mechanistic localization, and a first-order readout model.} The flip is not
+cosine sign-cancellation (signed
 and absolute interference indices are numerically identical everywhere; negative-cosine key
 mass is negligible in all cells) and not differential geometry-tracking (the received
 cross-talk norm is geometry-predicted at $\rho\approx0.99$ in every cell we re-analyzed).
 Aligned
 cross-talk arrives everywhere; what flips is its effect at the readout: a boost in
-low-gain regimes, a penalty in high-gain regimes. As a mechanism we offer an explicit
-\emph{conjecture} --- over-amplification past an operating point in high-gain layers,
-small-signal linear reinforcement in low-gain layers --- consistent with everything we
-measure but not derived from a formal readout model.
-\item \textbf{A deployable admission rule.} Gain-screen the target layer, then geometry-order
+low-gain regimes, a penalty in high-gain regimes. Section~\ref{sec:mech} gives this
+formal structure. A short proposition, proved from a first-order expansion under stated
+assumptions, identifies the two quantities we measure---cell gain and constructive
+fraction---as estimates of the magnitude and the sign of the readout slope at the edit's
+operating point; a separately labeled conjecture supplies the operating-point account
+that ties that sign to the layer's gain, with three predictions, one already confirmed
+and one decisive falsification test we name but do not run.
+\item \textbf{An operational implication for knowledge maintenance.} Gain-screen the target layer, then geometry-order
 candidate edits. We evaluate it retrospectively across the map; the same stored key/value
 quantities also support a held-out per-edit damage predictor (gate $\rho=\predictorRho{}$
 at the reference layer).
 \end{enumerate}
 
-Every gate, threshold, and directional prediction was frozen in writing before the
-corresponding runs, and Section~\ref{sec:falsified} reports the intermediate
-interpretations that our own follow-up tests refuted.
+The gate constants, the directional ordering claim, and the per-cell directional
+predictions were frozen in writing before the corresponding runs; Section~\ref{sec:prelim}
+states precisely which quantities that covers and which remain descriptive, and
+Section~\ref{sec:falsified} reports the intermediate interpretations that our own
+follow-up tests refuted.
 
 \section{Related Work}\label{sec:related}
 \textbf{Model merging and task arithmetic.} Combining independently trained models ranges
@@ -247,7 +267,11 @@ target token ($\mathrm{drop}<0$: merging \emph{helped}). Here $k_a$ is the edit'
 value residual; we use a native ROME implementation with fp32 value optimization, $n=200$
 edits per cell, and three seeds drawing independently sampled edit sets (seeded
 shuffles of the full 21{,}919-record bank; any two seeds' 200-edit banks share 2--5
-records). The \emph{dose} of observation
+records). Our ROME uses the identity-covariance (unwhitened) rank-one solve;
+canonical ROME's covariance-weighted variant replaces $k_a$ with $C^{-1}k_a$ in
+the left factor. Eq.~\ref{eq:crosstalk} and the dose are defined for the
+unwhitened update used throughout.
+The \emph{dose} of observation
 $a$ is $(d_a\!\cdot\!r_a)/\lVert r_a\rVert^2$, the received cross-talk relative to the
 edit's own delivery, and a cell's \emph{gain} is the median of $|\mathrm{drop}|/\text{dose}$
 over positive-dose observations (pooled over $g\leq20$): the logit response per unit
@@ -280,9 +304,10 @@ at the permutation floor (one-sided $p<1/2{,}000$, the resolution of the test).
 \textbf{Reproducibility parameters.} Edits use a native ROME implementation: a
 rank-one update to the MLP down-projection at the stated layer, with the value vector
 optimized in fp32 for 20 Adam steps at learning rate $0.1$ and a weight-decay anchor
-of $10^{-3}$ toward the pre-edit value. All federation cells --- including the 12B,
-14B, and 20B models, run on large-memory cards --- load model weights in fp32; no
-cell uses reduced precision. Layers are selected by relative
+of $10^{-3}$ toward the pre-edit value. All \nCells{} map cells --- including the 12B,
+14B, and 20B models, run on large-memory cards --- load model weights in fp32; the only
+reduced-precision run in the paper is the out-of-map 13B replication cell of
+Section~\ref{sec:law}, loaded in bf16 and flagged there. Layers are selected by relative
 depth: 75\% of the layer stack is the primary cell per model, with 50\% (and two
 deeper, 86--88\%) contrast cells as annotated in Table~\ref{tab:width}. Edit banks are drawn from
 CounterFact by seeded shuffle as described above, with no further filtering; the
@@ -298,15 +323,34 @@ process to support code authoring, experiment orchestration, and data analysis,
 including generation of figure-plotting code from experimental result files; all code,
 experimental designs, and analytical outputs were reviewed and verified by the author.
 
-\textbf{Pre-registration ledger.} Every ``frozen'' claim in this paper corresponds to
-a dated, written prediction document that preceded the corresponding runs: the gate
-rule and constants were frozen before any multi-model run, and the per-cell directional
-predictions for the expansion cells (including the depth-contrast and pre-modern
-GPT-2-XL cells) were written before those cells ran. The ledger --- the frozen
-documents with their dates, the complete prediction$\to$outcome record scored
-cell-by-cell (including its one partial and one near-miss), and which cells were added
-after the final freeze (the three final-wave cells noted in Section~\ref{sec:law}) ---
-is included in the research-data deposit and available to reviewers.
+\textbf{Pre-registration ledger, and what is \emph{not} pre-registered.} Because
+``pre-registered'' is used loosely in this literature, we state the boundary exactly.
+Three things were frozen in dated, written documents that preceded the corresponding
+runs. (i) The gate rule and all its constants --- the $+0.15$ partial threshold, the
+$0.30$ coherence rule, the negligibility and saturation ceilings, and the own-magnitude
+guard --- frozen before any multi-model run. (ii) The ordering claim, frozen as a
+\emph{directional} prediction with a numeric bound: Spearman(gain, constructive
+fraction) $\leq-0.7$, restated verbatim at each addendum as the cell count grew.
+(iii) Per-cell directional predictions (regime, and in most cases a constructive-fraction
+band) for the expansion cells, including the depth-contrast and pre-modern GPT-2-XL
+cells, written before those cells ran.
+
+Three things are \emph{not} pre-registered and we do not present them as such. The
+measured value of the ordering statistic --- \ordSpearman{} and its confidence interval
+--- is a descriptive estimate; what was frozen is the direction and the $\leq-0.7$ bound
+that it satisfies, and the analysis artifact carrying this table is labelled descriptive
+and non-pre-registered accordingly. The three final-wave cells (Mistral-Nemo-12B,
+gemma-2-9b, GPT-NeoX-20B) were added after the last prediction freeze with no per-cell
+directional predictions; we therefore report the ordering both with and without them
+($-0.811$ over 19 cells, \ordSpearman{} over \nCells{}). The out-of-map 13B replication
+cell of Section~\ref{sec:law} was likewise run after the freeze, without a per-cell
+prediction, and is excluded from the headline statistic. The gain$=8$ banding used in
+the figures is a display choice, not a frozen threshold (Section~\ref{sec:law}).
+The ledger --- the frozen documents with their dates, the complete
+prediction$\to$outcome record scored cell-by-cell (12 scored predictions: 9 held, 1 held
+with a noted deviation, 1 partial, 1 near-miss, with 3 cells declared exploratory at
+freeze time), and the post-freeze additions --- is included in the research-data deposit
+and available to reviewers.
 
 \section{The Operating Map under the Pre-Registered Gate}\label{sec:map}
 At the reference cell (Llama-3.2-1B, layer~12, 75\% relative depth) the gate passes:
@@ -314,10 +358,12 @@ geometry predicts merge damage at $g{=}2$ (per-seed partials \refPartialsGtwo{})
 (\refPartialsGthree{}), and $g{=}5$ (\refPartialsGfive{}); $g{=}10$ fails the coherence
 rule (a transition band) and $g\geq20$ saturates; extended runs at the reference cell and
 at the deep Qwen-1.5B cell confirm full saturation at $g{=}50$ and $g{=}100$ (argmax-loss
-rates $0.89$--$1.00$ across seeds), which is why all pooled analyses use $g\leq20$. This
-yields two distinct and binding
-boundaries: a \emph{geometry-valid} boundary at $g\leq5$ and a \emph{damage-still-gradated}
-boundary at $g{=}10$. The law must never be quoted as holding to $g{=}10$.
+rates $0.89$--$1.00$ across seeds), which is why all pooled analyses use $g\leq20$. Two
+distinct boundaries follow, and they scope the result differently. The geometry result is
+established only for $g\leq5$: that is the range over which the partial correlation
+qualifies under the frozen gate. At $g{=}10$ damage remains gradated --- merges still
+produce measurable, non-saturated per-edit damage --- but the geometry signal fails the
+coherence rule, so the predictive claim does not extend there.
 
 Table~\ref{tab:width} reports the frozen gate's verdict for every cell in the map, with
 each cell's boundary defined as the largest qualifying group size in $\{2,3,5,10,20\}$
@@ -386,8 +432,8 @@ Mistral-Nemo-12B L30 & Mixed & $\{20\}$ & 20 & $+0.37$ {\scriptsize[.26,\,.46]} 
 gemma-2b L13 (50\%) & Inconclusive & coherence & --- & $+0.08$ {\scriptsize[$-$.00,\,.14]} @2 \\
 gemma-2b L19 & Inconclusive & coherence & --- & $+0.13$ {\scriptsize[.01,\,.24]} @2 \\
 gemma-2-9b L31   & Inconclusive & coherence & --- & $+0.25$ {\scriptsize[.18,\,.30]} @2 \\
-Phi-3.5 L16 (50\%) & Mixed & none & --- & $+0.20$ {\scriptsize[.10,\,.35]} @20 \\
-Phi-3.5 L24 & Mixed & $\{20\}$ & 20 & $+0.39$ {\scriptsize[.34,\,.47]} @20 \\
+Phi-3.5 L16 (50\%) & Mixed & none & --- & $+0.23$ {\scriptsize[.17,\,.28]} @10 \\
+Phi-3.5 L24 & PASS & $\{10,20\}$ & 20 & $+0.67$ {\scriptsize[.63,\,.72]} @20 \\
 Qwen2.5-1.5B L14 (50\%) & Mixed & $\{10\}$ & 10 & $+0.34$ {\scriptsize[.33,\,.35]} @10 \\
 Qwen2.5-1.5B L21 & PASS & $\{10,20\}$ & 20 & $+0.35$ {\scriptsize[.24,\,.42]} @20 \\
 Qwen2.5-1.5B L24 (86\%) & Inconclusive & --- & --- & $+0.10$ {\scriptsize[.00,\,.20]} @20 \\
@@ -431,14 +477,130 @@ aligned dose at $g{=}2$: $\rho(\text{dose},\text{drop})=$ \projRhoFourteenB{}
 cross-model dose-response collapse: within a dose band common to all \nCells{}
 cells, the median logit response per unit dose spans a factor of roughly $700$
 across cells.
+\subsection{A first-order readout model of the sign reversal}\label{sec:mech}
+Section~\ref{sec:law} establishes \emph{that} the effect of aligned cross-talk reverses
+sign; this subsection states what has to be true of the readout for that to happen, and
+separates the part that follows from a derivation from the part that remains an empirical
+conjecture with a named falsification test.
+
+Fix an observation: edit $a$, merged in a group $G$, receiving cross-talk $d_a$ from
+Eq.~\ref{eq:crosstalk}. Decompose the received cross-talk into a component along the
+edit's own delivery direction and a residual,
+\begin{equation}
+d_a=\delta_a\,r_a+w_a,\qquad \langle w_a,r_a\rangle=0,\qquad
+\delta_a=\frac{\langle d_a,r_a\rangle}{\lVert r_a\rVert^{2}},
+\label{eq:decomp}
+\end{equation}
+so that $\delta_a$ is exactly the \emph{dose} of Section~\ref{sec:prelim}. Let
+$\ell_a(t)$ denote the target-token logit obtained when the value delivered at $a$'s key
+is $t\,r_a$, all else held fixed; the solo edit is $\ell_a(1)$ and the merged
+observation is $\ell_a(1+\delta_a)$ up to the residual $w_a$.
+
+\begin{assumption}[Scalar readout along the delivery axis]\label{as:scalar}
+The target logit depends on the received cross-talk only through $\delta_a$ to first
+order: the contribution of the orthogonal residual $w_a$ is $o(|\delta_a|)$.
+\end{assumption}
+\begin{assumption}[Local smoothness]\label{as:smooth}
+$\ell_a$ is continuously differentiable on a neighbourhood of $t=1$ containing
+$1+\delta_a$.
+\end{assumption}
+
+\begin{proposition}[Gain and constructive fraction are the magnitude and the sign of one
+slope]\label{prop:slope}
+Under Assumptions~\ref{as:scalar}--\ref{as:smooth},
+\begin{equation}
+\mathrm{drop}_a\;=\;\ell_a(1)-\ell_a(1+\delta_a)\;=\;-\,\ell_a'(1)\,\delta_a\;+\;o(|\delta_a|).
+\label{eq:firstorder}
+\end{equation}
+Consequently, for positive-dose observations with $\ell_a'(1)\neq0$, in the limit
+$\delta_a\to0$ we have $\operatorname{sign}(\mathrm{drop}_a)=
+-\operatorname{sign}(\ell_a'(1))$ and $|\mathrm{drop}_a|/\delta_a\to|\ell_a'(1)|$.
+The sign statement is uninformative for cells whose slope is near zero, which is
+where the boundary cells of Section~\ref{sec:law} sit; we therefore report those
+cells separately and do not rest the regime assignment on them. A
+cell's \emph{gain}, the median of $|\mathrm{drop}|/\mathrm{dose}$ over positive-dose
+observations (pooled over $g\leq20$; see the discussion following for the
+resulting finite-dose bias), is therefore a rank-level proxy for the median
+$|\ell_a'(1)|$ in that cell rather than a point estimate of it, and its
+\emph{constructive fraction} a proxy for $\Pr[\ell_a'(1)>0]$.
+\end{proposition}
+\begin{proof}
+Assumption~\ref{as:scalar} lets the merged logit be written $\ell_a(1+\delta_a)+
+o(|\delta_a|)$; Assumption~\ref{as:smooth} gives the first-order expansion
+$\ell_a(1+\delta_a)=\ell_a(1)+\ell_a'(1)\delta_a+o(|\delta_a|)$. Subtracting yields
+Eq.~\ref{eq:firstorder}; dividing by $\delta_a>0$ and letting $\delta_a\to0$ gives the
+two limit statements.
+\end{proof}
+
+The proposition is not a result about which layers are destructive --- it carries no
+empirical content on its own. What it does is tie the two statistics this paper measures
+to a single object. Gain and constructive fraction are not two independent measurements
+that happen to correlate; under Assumptions~\ref{as:scalar}--\ref{as:smooth} they are the
+magnitude and the sign of the same derivative, which is why an ordering between them is
+a statement about one readout curve rather than a coincidence. It also explains a
+detail of Section~\ref{sec:law} that would otherwise look accidental: the
+sign-carrying statistic is $\rho(\mathrm{dose},\mathrm{drop})$, not any norm-based
+index, because Eq.~\ref{eq:firstorder} makes dose the signed regressor and $-\ell_a'(1)$
+its coefficient.
+
+The identification is asymptotic in $\delta_a$, and our estimator pools over a dose range
+that is not small in that sense: median dose grows by a factor of roughly 21--26 from
+$g{=}2$ to $g{=}20$ (0.046 to 0.994 at the reference cell; 0.017 to 0.433 at the deep 14B
+cell), and the recovered ratio drifts correspondingly --- per-group-size gain falls
+$34.4\to17.3$ at the reference cell and $4.98\to1.43$ at the 14B cell, a factor of 2.0
+and 3.5 respectively. The pooled gain is therefore best read as a rank-level proxy for
+$|\ell_a'|$ rather than a point estimate of it: it is stable enough in \emph{ordering}
+that every robustness variant we ran preserves the cross-cell ranking, including
+recomputing the outcome at fixed $g{=}2$ with no pooling at all
+($\rho=-0.80$; Section~\ref{sec:law}), which is the form of the statistic the
+small-dose limit actually licenses.
+
+The empirical content sits in the next statement, which we do not prove.
+
+\begin{conjecture}[Operating-point account of the two regimes]\label{conj:opt}
+Each cell has a value $t^{*}_a$ at which $\ell_a$ peaks. Editing to a fixed optimization
+budget places the solo operating point $t{=}1$ \emph{past} $t^{*}_a$ in layers that
+transmit value perturbations strongly and \emph{below} $t^{*}_a$ in layers that transmit
+them weakly. Then $\ell_a'(1)<0$ (destructive) in the first case and $\ell_a'(1)>0$
+(constructive) in the second; and because $|\ell_a'|$ is small on the shallow ascending
+branch and large on the steep descending branch, the magnitude of the slope orders its
+sign across cells --- the ordering Section~\ref{sec:law} measures. Crossover in group
+size occurs where the accumulated dose first carries $1+\delta_a$ past $t^{*}_a$.
+\end{conjecture}
+
+The conjecture makes three predictions with different current status.
+\emph{(P1) Reducing dose at a fixed layer extends the constructive window in $g$.}
+Confirmed: at the deep 14B cell, AlphaEdit suppresses cross-talk magnitude about
+five-fold and the cell remains constructive past $g{=}20$, where under ROME the geometry
+partials had already reverted positive (Section~\ref{sec:editors}).
+\emph{(P2) Within a cell, the sign of drop must flip when the sign of dose flips.}
+This is the decisive test and we do not run it: aligned cross-talk is near-universal in
+our cells (Section~\ref{sec:law}), so negative-dose observations are far too rare to
+support it --- testing it requires donor sets constructed to be anti-aligned to the
+receiving edit's key, which no natural edit bank supplies.
+\emph{(P3) Crossover occurs at a cell-constant accumulated dose, independent of how that
+dose is assembled} (many weak donors or few strong ones).
+The conjecture is falsified if reducing per-donor dose at a fixed layer moves the
+crossover to \emph{smaller} $g$, if a cell's drop sign fails to flip under sign-reversed
+dose while remaining first-order in $|\delta_a|$, or if two cells at matched gain land on
+opposite sides of the sign boundary beyond sampling error. The last of these is a live
+test that currently passes: no cell in the map lands significantly on the wrong side of
+its regime (Section~\ref{sec:law}), although constructiveness \emph{magnitude} at
+matched gain does vary by architecture, which is why we state the conjecture as a
+rank-level account rather than a sufficient one. Assumption~\ref{as:scalar} is the
+model's main exposure: it discards the orthogonal component $w_a$, and a cell in which
+$w_a$ carried a systematic logit effect would break the identification in
+Proposition~\ref{prop:slope} without touching any measurement reported here.
+
 \subsection{The gain screen}
 \begin{figure}[t]
 \centering
 \includegraphics{figures-src/figA.pdf}
 \caption{Perturbation gain orders the merge-interference regime across \nCells{}
 model$\times$layer cells and \nFamilies{} architecture families (Spearman
-\ordSpearman{}, $p=\ordSpearmanP{}$; threshold and per-cell predictions frozen before
-the runs). Error bars are per-cell bootstrap 95\% CIs over observations (2{,}000
+\ordSpearman{}, $p=\ordSpearmanP{}$; the directional claim $\rho\leq-0.7$ and the
+per-cell predictions for all but the three final-wave cells were frozen before the
+runs --- Section~\ref{sec:prelim}). Error bars are per-cell bootstrap 95\% CIs over observations (2{,}000
 replicates); most are smaller than the markers. Shape
 encodes family; the two labeled cells are the no-crossover-by-$g{=}20$ extremes.}
 \label{fig:gain}
@@ -469,10 +631,16 @@ cell lands significantly on the wrong side of its regime.
 \textbf{Threshold, gradedness, and robustness of the ordering.} The
 gain--constructiveness relation is graded rather than dichotomous, and we state the
 split explicitly: the ``high-gain''/``low-gain'' banding in the figures cuts at gain
-$8$, a display choice --- any cut between the boundary cells (deep Qwen-3B, gain
-$3.6$, and Mistral-Nemo-12B, gain $10.7$) produces the same grouping --- while the
+$8$, a display choice --- within the \nCells{}-cell map the interval between the
+boundary cells (deep Qwen-3B, gain $3.6$, and Mistral-Nemo-12B, gain $10.7$) contains no
+cell, so any cut inside it produces the same grouping --- while the
 frozen pre-registration made \emph{per-cell directional} predictions, not a numeric
-threshold. (This graded relation is distinct from the refuted single dose-continuum
+threshold. The out-of-map 13B replication cell discussed below falls inside that
+interval (gain \gainThirteenB{}), so for that cell the banding is genuinely
+cut-dependent; this is one reason we treat it as a boundary cell and report it
+separately rather than folding it into the banded figures. Its constructive fraction
+(\fracThirteenB{}) sits with the other boundary cells (Mistral-Nemo $0.423$, deep
+Qwen-3B $0.430$) rather than with either band. (This graded relation is distinct from the refuted single dose-continuum
 of Section~\ref{sec:falsified}, which concerned collapse at matched dimensionless
 dose.) Five cells cross the pooled constructive-fraction midpoint, all in the
 low-gain band and none in the high-gain band, and in each of the five the median
@@ -490,9 +658,9 @@ magnitudes: correlating gain against the magnitude-decoupled effect statistic
 $\rho(\mathrm{dose},\mathrm{drop})$ gives Spearman $\raControl{}$
 ($p=\raControlP{}$); estimating gain on a random half of each cell's observations
 and the constructive fraction on the disjoint other half leaves the ordering intact
-($\rho=-0.81$, $p=4.4\times10^{-6}$), as does computing the outcome at fixed $g{=}2$
-with no pooling ($\rho=-0.81$; both quantities at $g{=}2$: $\rho=-0.76$,
-$p=4.5\times10^{-5}$). Second, it does not depend on treating layers of one model as
+($\rho=-0.82$, $p=2.5\times10^{-6}$), as does computing the outcome at fixed $g{=}2$
+with no pooling ($\rho=-0.80$; both quantities at $g{=}2$: $\rho=-0.77$,
+$p=3.2\times10^{-5}$). Second, it does not depend on treating layers of one model as
 independent: leave-one-family-out Spearman remains within \lofoRange{} for every one
 of the seven families, a family-cluster bootstrap gives 95\% CI \famBootCI{}, and
 collapsing the map to seven family medians still yields $\rho=\famLevelRho{}$
@@ -502,8 +670,10 @@ inferential result, with the 22-cell $p$ read descriptively.
 \textbf{Gain also governs whether edits install at all.} The same scalar that orders
 merge interference orders solo-edit success: Spearman(gain, esr) $=+0.83$
 ($p=1.4\times10^{-6}$) across the 22 cells (Table~\ref{tab:gain}, last column).
-Every high-gain cell installs edits at esr $\geq0.91$; every low-gain cell sits at
-$0.84$ or below, collapsing to $0.01$--$0.05$ at the lowest-gain cells. This is one
+Within the map, every high-gain cell installs edits at esr $\geq0.91$ and every low-gain
+cell sits at $0.84$ or below, collapsing to $0.01$--$0.05$ at the lowest-gain cells (the
+held-out 13B cell later in this section is the one measured exception, and we treat it as
+such). This is one
 phenomenon, not two: a low-gain layer transmits value-space perturbations weakly to
 the readout, so an edit's own correction rarely clears the argmax margin (low esr),
 neighbors' cross-talk is weak (small drops), and what coupling remains is
@@ -535,9 +705,14 @@ the same correlation restricted to group size 2; $^{\circ}$ marks cells whose
 $g{=}2$ correlation is not individually significant ($p\geq0.05$). esr is the
 solo-edit success rate (argmax flips to the target), three-seed mean.
 Across all \nCells{} cells, Spearman(gain, constructive fraction) $=\ordSpearman{}$
-($p=\ordSpearmanP{}$, bootstrap 95\% CI $\ordSpearmanCI{}$); the
-threshold and every per-cell directional prediction were frozen in writing before the newest
-cells ran. The two boldface cells have no crossover by $g{=}20$.}
+($p=\ordSpearmanP{}$, bootstrap 95\% CI $\ordSpearmanCI{}$); the gate constants and the
+directional ordering prediction were frozen in writing before the runs, as were the
+per-cell directional predictions for all but the three final-wave cells
+(Section~\ref{sec:prelim}). The two boldface cells have no crossover by $g{=}20$.
+$^{\dagger}$The Llama-2-13B row is a replication cell run after the map was frozen, and
+the only one loaded in bf16 rather than fp32; it is excluded from the \nCells{}-cell
+statistic and from the figures, and is discussed separately below. Adding it as a 23rd
+point gives $\ordSpearmanWithThirteenB{}$ ($p=\ordSpearmanWithThirteenBP{}$).}
 \label{tab:gain}
 {\small
 \begin{tabular}{lrrrrr}
@@ -553,16 +728,21 @@ Qwen-1.5B L14 (50\%)& 28.1 & 0.242 & $+0.66$ & $+0.20$ & 0.99 \\
 Llama-1B L12        & 27.2 & 0.025 & $+0.78$ & $+0.42$ & 0.99 \\
 Llama-8B L24        & 22.2 & 0.127 & $+0.82$ & $+0.37$ & 1.00 \\
 gemma-2b L13 (50\%) & 20.0 & 0.287 & $+0.25$ & $+0.04$$^{\circ}$ & 0.92 \\
-Phi-3.5 L16 (50\%)  & 16.9 & 0.251 & $+0.36$ & $+0.13$ & 0.99 \\
+Phi-3.5 L16 (50\%)  & 15.6 & 0.252 & $+0.48$ & $+0.14$ & 0.99 \\
 gemma-2-9b L31      & 12.5 & 0.119 & $+0.53$ & $+0.19$ & 0.95 \\
 gemma-2b L19        & 12.5 & 0.115 & $+0.57$ & $+0.08$$^{\circ}$ & 0.98 \\
 Mistral-Nemo-12B L30 & 10.7 & 0.423 & $+0.41$ & $-0.05$$^{\circ}$ & 0.98 \\
+\midrule
+\multicolumn{6}{l}{\emph{Out-of-map replication cell (not in the \nCells{}-cell map or in
+Figures~\ref{fig:gain}--\ref{fig:profiles}):}}\\
+Llama-2-13B L30$^{\dagger}$ & \gainThirteenB{} & \fracThirteenB{} & $\rhoDoseThirteenB{}$ & $\rhoGtwoThirteenB{}$ & \esrThirteenB{} \\
+\midrule
+Phi-3.5 L24         & 3.9  & 0.460 & $+0.49$ & $-0.43$ & 0.50 \\
 Qwen-3B L27         & 3.6  & 0.430 & $+0.50$ & $-0.13$ & 0.83 \\
 Qwen-7B L21         & 3.5  & 0.349 & $+0.40$ & $-0.06$$^{\circ}$ & 0.80 \\
 GPT-2-XL L24 (50\%) & 3.4  & 0.711 & $-0.10$ & $-0.35$ & 0.50 \\
 Qwen-1.5B L21       & 3.3  & 0.420 & $+0.38$ & $-0.26$ & 0.45 \\
 \textbf{Qwen-14B L36} & \textbf{3.1} & \textbf{0.836} & \textbf{$-0.34$} & $-0.57$ & 0.37 \\
-Phi-3.5 L24         & 1.9  & 0.556 & $+0.12$ & $-0.26$ & 0.46 \\
 Qwen-1.5B L24       & 1.1  & 0.471 & $+0.23$ & $-0.21$ & 0.05 \\
 \textbf{GPT-2-XL L36} & \textbf{0.84} & \textbf{0.725} & \textbf{$-0.45$} & $-0.39$ & 0.02 \\
 GPT-NeoX-20B L33    & 0.10 & 0.634 & $-0.12$ & $+0.03$$^{\circ}$ & 0.01 \\
@@ -583,7 +763,7 @@ the low-gain regime.
 
 \textbf{Depth gates the regime at fixed scale.} In Phi-3.5, gain falls
 \phiGainShallow{}$\to$\phiGainDeep{} and the $g{=}2$ effect of aligned cross-talk turns from
-$+0.14$ to $-0.35$ between 50\% and 75\% relative depth. In Qwen-3B, gain falls
+$+0.14$ to $-0.43$ between 50\% and 75\% relative depth. In Qwen-3B, gain falls
 \qwenThreeBGainShallow{}$\to$\qwenThreeBGainDeep{} and the same quantity turns $+0.13$ to
 $-0.12$. Same model, same scale: the regime is a property of the layer.
 
@@ -606,6 +786,44 @@ crossover lies beyond $g{=}20$. Crossover to destructive otherwise occurs at $g\
 (deep Qwen-1.5B) and $g\approx5$ (deep Qwen-3B/7B and Phi-3.5). Pooled statistics hide this:
 a cell whose crossover sits below the pooling window looks destructive on average, the
 source of the retired ``sharp 7B$\to$14B jump'' reading (Section~\ref{sec:falsified}).
+
+\textbf{A held-out replication at 13B, in a fourth family and in the previously empty
+gain band.} Every cell above was measured before the screen was written down. To test the
+screen where it had no data, we ran one further cell after the map was frozen ---
+Llama-2-13B at layer~30 (75\% relative depth), three seeds, $g{=}2$--20, same protocol
+--- chosen because it falls in the fourth architecture family at that scale and because
+its gain, \gainThirteenB{}, lands inside the previously empty band between the deep
+Qwen-3B cell (3.6) and Mistral-Nemo-12B (10.7). It behaves as a boundary cell should. At
+small groups the cell is constructive: three-seed mean drops
+\thirteenBDropsSmallG{} at $g{=}2/3/5$, pooled mean over $g\leq5$ of
+\thirteenBConstrMean{} logits with bootstrap 95\% CI \thirteenBConstrCI{} entirely below
+zero, and $\rho(\mathrm{dose},\mathrm{drop})$ significantly negative at each of those
+group sizes ($-0.27$, $-0.23$, $-0.15$; $p\leq2.7\times10^{-4}$). It then crosses to
+damage between $g{=}5$ and $g{=}10$ (mean drop \thirteenBDropGten{} at $g{=}10$,
+\thirteenBDropGtwenty{} at $g{=}20$), and in the destructive tail the geometry law
+applies with a strong margin: partials \thirteenBPartialsGtwenty{} at $g{=}20$, all three
+seeds coherent and surviving the own-magnitude guard. Under the frozen gate the cell's
+verdict is Mixed with a single qualifying group size, $\{20\}$ --- the
+window-shifts-up shape that Section~\ref{sec:map} reports for the other boundary cells.
+
+Two things about this cell are worth stating plainly. First, it is a genuine held-out
+test of the screen's ordering, not a re-description: the cell was run after the ordering
+statistic was fixed, its gain places it between the two banding anchors, and its
+constructive fraction (\fracThirteenB{}) and $g{=}2$ dose correlation
+(\rhoGtwoThirteenB{}) both land on the side the screen predicts. Second, it separates two
+things the rest of the map confounds. Its edits install at esr \esrThirteenB{}, far above
+the $0.84$ ceiling that holds for every low-gain cell in the map, while its small-$g$
+cross-talk is nonetheless constructive. Proposition~\ref{prop:slope} makes this
+unsurprising: constructiveness is a statement about the \emph{sign of the readout slope}
+at the operating point, whereas install success is a statement about the target logit
+clearing its competitors --- different thresholds, which the extreme low-gain cells happen
+to cross together and this one does not. The practical reading is that the ``do not place
+edits here'' advice of Section~\ref{sec:law} is a property of the extreme low-gain cells,
+not an entailment of constructiveness itself. Three caveats keep this to its size: it is
+one cell with a Mixed verdict, its model was loaded in bf16 rather than the fp32 used
+throughout the map (with the same weight-reconstruction fidelity check applied,
+worst-seed relative error $0.9\%$), and no per-cell directional prediction was frozen
+for it.
 
 \textbf{What the screen does not explain.} At matched gain ($\approx3.4$), GPT-2-XL is far
 more constructive than the deep Qwen layers (0.711 versus 0.35--0.43), and crossover-$g$ is
@@ -676,10 +894,10 @@ At the constructive-regime extreme (the deep 14B cell), AlphaEdit suppresses cro
 magnitude about five-fold in both directions (median 0.014 versus ROME's 0.071 at
 $g{=}2$; per-seed ratios 4.3--6.8 across group sizes) while the constructive regime itself
 is preserved (constructive fraction 0.837
-versus 0.836): the regime belongs to the layer, not the editor. Consistent with the
-operating-point account, the reduced dose keeps the cell in the small-signal
-constructive window past $g{=}20$, where under ROME the geometry partials had already
-reverted positive.
+versus 0.836): the regime belongs to the layer, not the editor. This is prediction P1 of
+Conjecture~\ref{conj:opt} and it holds: the reduced dose keeps the cell in the
+small-signal constructive window past $g{=}20$, where under ROME the geometry partials
+had already reverted positive.
 
 Three findings follow. First, the two-regime structure is editor-general at every
 location tested --- the two reference cells, the 8B scale cell, and the 14B
@@ -725,8 +943,8 @@ tracking the CounterFact values \cfPartialsGtwoForZsre{} within seed noise at ev
 size and matching damage magnitudes; at Qwen-1.5B L21 it passes with the same low-gain window
 shape. The operating map is not an artifact of one fact distribution.
 
-\section{A Gain-Screened Admission Rule}\label{sec:rule}
-The map converts into a two-stage admission rule for a maintainer deciding which of $N$
+\section{A Gain-Screened Admission Framework}\label{sec:rule}
+The map converts into a two-stage admission framework for a maintainer deciding which of $N$
 candidate edits to co-deploy at a target layer.
 
 \textbf{Deployment context.} The intended operator is whoever owns a deployed model
@@ -771,7 +989,7 @@ a fleet in one step: large-fleet federation lives exactly in the saturated regim
 where per-edit ordering no longer differentiates outcomes, and the practical
 consequence of the map is that fleets should be released as sequences of screened
 small batches rather than merged wholesale. Extending admission guidance into the
-saturated large-$g$ regime is an open problem, not a gap this rule quietly covers.
+saturated large-$g$ regime is an open problem, not a gap this framework quietly covers.
 
 Table~\ref{tab:benefit} evaluates the ordering step retrospectively under the frozen spec.
 For each cell and each $g\leq5$, admission keeps the bottom-$q$ observations by $I_{\cos}$ at
@@ -779,14 +997,16 @@ fixed group composition; the primary metric is the mean signed drop among admitt
 versus the same-budget random baseline (exactly the overall mean), with magnitude-only
 ordering as a second baseline and seeds kept separate. Keeping composition fixed makes
 this a \emph{selection} evaluation --- which of an already-formed group's members to
-admit --- rather than a prospective group-formation study; evaluating admission that
-re-forms the groups themselves is future work. The three-way comparison is
+admit --- rather than a prospective group-formation study; the separately pre-registered
+reference-cell test below screens a candidate pool and forms the admitted groups anew. The
+three-way comparison is
 deliberately an ablation of the rule's knowledge component: random admission removes
 all information, magnitude-only ordering keeps the update-size scaffold but discards
 key geometry, and the full rule adds the geometric term --- so the gap between the
 magnitude-only and geometry-ordered columns isolates exactly what the key-geometry
 screen contributes: $+0.27$ logits per admitted edit at the 25\% budget
-($0.716-0.443$) and $+0.25$ at 50\% ($0.534-0.289$) --- the honest measure of what
+(\benefitHighQtwofive{}$-$\benefitMagQtwofive{}) and $+0.24$ at 50\%
+(\benefitHighQfifty{}$-$\benefitMagQfifty{}) --- the honest measure of what
 the geometric term adds over the update-size scaffold, alongside the headline
 vs-random numbers.
 
@@ -832,6 +1052,25 @@ safe, admission ordering is neutral.}
 \label{fig:benefit}
 \end{figure}
 
+\textbf{Pre-registered prospective test (single reference cell, mixed result).} We froze and
+ran a prospective group-formation test at Llama-3.2-1B layer~12 with ROME on CounterFact:
+from a pool of 100 candidate edits, each policy admitted 25\% and formed groups of five,
+with three seeds and three random-policy draws per seed. Mean target-logit drop was
+\prospectiveDropGeometry{} for geometry screening, versus \prospectiveDropRandom{} for
+random and \prospectiveDropMagnitude{} for magnitude screening (downstream descriptive
+means over the three seed reports). Geometry was lower than both baselines in every seed
+(geometry \prospectiveDropGeometrySeeds{}; random \prospectiveDropRandomSeeds{};
+magnitude \prospectiveDropMagnitudeSeeds{}). The geometry--magnitude advantage also
+exceeded the random policy's full three-draw range in every seed
+(\prospectiveRandomSpreads{}), so none of the three comparisons counted as a tie under the
+frozen rule. The retrospective $g{=}5$ geometry partials (\refPartialsGfive{}) had the
+predicted positive sign. P1, P2, and P4 pass in all seeds; P3 (simultaneous ESR and
+retention within the random interval) passes in 1/3 seeds. Under the frozen gate, the
+primary geometry comparison is supported but the claim is not admitted at the reference
+cell---P3's failure blocks full confirmation. This remains evidence that geometry
+screening outperforms both random and magnitude-only baselines at this cell, but it does
+not establish prospective generalization across models, editors, or datasets.
+
 \section{Falsified Intermediate Interpretations}\label{sec:falsified}
 We report four intermediate interpretations that our own follow-up tests refuted; each
 falsification sharpened the final claim. A \emph{single dose-continuum} was refuted by the
@@ -856,13 +1095,22 @@ name it ``MEMIT-style multi-layer spread'' throughout.
 (Section~\ref{sec:editors}); multi-hop~\cite{mquake2023} and ripple-effect~\cite{rippleedits2024}
 evaluation streams, which probe knowledge downstream of an edit, are outside this paper's
 scope.
-\textbf{Scale ceiling.} The map now spans 1--20B and, above 12B, more than one family: a
+\textbf{Scale ceiling.} The map spans 1--20B and, above 12B, more than one family: a
 non-Qwen 12B cell (Mistral-Nemo) and a 20B cell (GPT-NeoX) join the 14B Qwen cell. The
-non-Qwen large cells are, however, either mixed (Mistral-Nemo) or untestable because their
-merge damage is negligible (GPT-NeoX), so a non-Qwen cell with clearly testable damage at
-14B and above remains the sharpest open anchor for the scale axis.
-\textbf{Retrospective evaluations.} The admission-benefit table and the routing efficiency
-are retrospective; a confirmatory prospective arm is future work.
+held-out Llama-2-13B cell (Section~\ref{sec:law}) partly closes what was the sharpest
+open anchor on this axis: it is a non-Qwen cell above 12B with clearly testable damage,
+it reproduces the full two-regime trajectory, and its destructive tail passes the
+geometry gate with a wide margin. It does not close the anchor outright --- it is a
+single cell, its overall verdict is Mixed with one qualifying group size, it was run in
+bf16 rather than fp32, and no directional prediction was frozen for it --- so a second
+large non-Qwen cell with a pre-registered prediction and a qualifying window wider than
+$\{20\}$ remains the natural next test.
+\textbf{Prospective evaluation.} The pre-registered prospective test (single reference
+cell, Llama-1B L12 ROME CounterFact) yielded a mixed result: the primary geometry
+comparison is supported across all three seeds, but P3 (retention and ESR simultaneously
+within random bounds) passes in only 1/3 seeds, blocking full confirmation under the
+frozen gate. Extending this result across models, editors, datasets, and group sizes
+remains future work.
 \textbf{Gain estimation.} Gain is measured here from merge observations; a cheaper edit-free
 estimator from norm statistics is future work.
 \textbf{Outcome metric.} We report target-logit drop on the edited fact; downstream and
@@ -870,17 +1118,24 @@ global damage under federation are not re-measured per group size and remain fut
 work.
 
 \section{Conclusion}\label{sec:conclusion}
-Rank-one edit federation is governed by a two-regime, gain-screened law: destructive,
-geometry-predicted over-amplification in high-gain layers, and constructive small-group
-reinforcement with an architecture-dependent crossover in low-gain layers. The regimes are
-depth-gated within a model, are present from 1B to 20B and across \nFamilies{}
-architecture families, and are screened, though not fully explained, by one measurable
-scalar. For a maintainer this yields an actionable admission rule for knowledge
-maintenance. For the science of editing it refines the interference picture
-inherited from task-vector merging --- where sign conflict and magnitude collision
-are the canonical culprits and aligned overlap is engineered away --- by showing
-that, for rank-one knowledge edits, aligned overlap's effect at the readout carries
-a sign that flips with a measurable layer property.
+The assumption that overlap between independently computed weight updates is
+monotonically harmful is false for rank-one knowledge edits. Aligned cross-talk arrives
+in every cell we measured, and its effect at the readout carries a sign that flips with a
+measurable property of the layer: destructive, geometry-predicted over-amplification in
+high-gain layers, and constructive small-group reinforcement with an
+architecture-dependent crossover in low-gain layers. The regimes are depth-gated within
+a model, are present from 1B to 20B and across \nFamilies{} architecture families, and
+are ordered by one measurable scalar which a first-order readout model identifies as the
+magnitude of the readout slope at the edit's operating point --- the regime being that
+slope's sign. The account is a screen, not a sufficient statistic: architecture residuals
+survive at matched gain, and the decisive test of the mechanism, reversing the sign of
+the received dose within a cell, needs donor sets no natural edit bank supplies. Within
+the two boundaries the map establishes --- geometry predicts damage only in small merge
+groups, and the constructive regime largely coincides with layers where edits install
+weakly --- the law converts into a gain-screened, geometry-ordered admission framework
+for model maintenance, and it tells a maintainer in advance which layers that framework
+will pay off at. For the science of merging it replaces a monotone assumption inherited
+from task arithmetic with a measured, signed, and screenable one.
 
 \section*{Funding}
 This research did not receive any specific grant from funding agencies in the public,

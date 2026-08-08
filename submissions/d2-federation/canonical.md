@@ -1,31 +1,31 @@
+# HISTORICAL MIRROR — NON-AUTHORITATIVE
+
+> The self-contained repaired deposit is `submissions/d2-neurocomputing/zenodo-deposit/`. This file is retained only for historical comparison; it is not a synchronized release tree and must not be used as the source for deposit contents or release metadata.
+
 # When Do Rank-One Knowledge Edits Merge? A Gain-Screened Two-Regime Law of Edit Federation
 
-**STATUS: SUPERSEDED as source of truth (2026-07-16). `main.tex` is now canonical** —
+**HISTORICAL STATUS (2026-07-16): this draft was superseded as the source of truth; its contemporaneous `main.tex` was canonical at that time** —
 it has evolved far past this draft (blind-panel response round: robustness statistics,
 threshold statement, TSV engagement, reproducibility/ledger sections, expanded
 tables/figures). This file remains as the v0.1 design record only; do NOT port from it.
 
-**STATUS: DRAFT v0.1 (2026-07-15) — canonical version; source of truth for the LaTeX
-rendering. Every number below traces to an on-disk artifact (provenance in §A). TODO
-slots are marked `[TODO-*]` and enumerated in §B.**
+**HISTORICAL DRAFT STATUS (2026-07-15): contemporaneous v0.1 design record; numbers and provenance are preserved for historical reference.**
 
 **Target venue: Knowledge-Based Systems (user-confirmed 2026-07-16);** Neurocomputing
 fallback. **Review model: SINGLE-anonymized (verified live)** — real byline, B6
 companion citable normally (the old TODO-ANON is RESOLVED). Venue facts + desk-review
 mitigation: `VENUE-KBS-FACTS-2026-07-16.md`; binding build rules: `REVIEW-RULES.md`.
-NOTE (updated 07-17, submission state): main.tex is now the SOLE source of truth for
-the whole manuscript — the 07-16/17 revision rounds (referee-feedback abstract reframe
-+ caveat hoisting, ~245 words; §7/caption compression; consistency fixes; byline; both
-GenAI declarations; live Data-availability links DOI 10.5281/zenodo.21405273 +
-github.com/PeterPonyu/edit-federation-map) were applied in main.tex ONLY. This
-canonical is a HISTORICAL design record as of the pre-reframe draft (its abstract and
-cell counts are stale: 19 cells/six families vs the submitted 22/seven, 1–20B). Do NOT
-port canonical→tex anymore; for any future revision, edit main.tex and treat this file
-as background.
+NOTE (updated 07-17, submission state): at that historical submission state, `main.tex`
+was the sole manuscript source of truth — the 07-16/17 revision rounds (referee-feedback
+abstract reframe + caveat hoisting, ~245 words; §7/caption compression; consistency fixes;
+byline; both GenAI declarations; live Data-availability links DOI 10.5281/zenodo.21405273 +
+github.com/PeterPonyu/edit-federation-map) were applied in `main.tex` ONLY. This file is a
+HISTORICAL design record as of the pre-reframe draft (its abstract and cell counts are
+stale: 19 cells/six families vs the submitted 22/seven, 1–20B). Do NOT port this file to
+current sources; for any future revision, edit the repaired canonical deposit/manuscript.
 
 ---
 
-## Abstract (draft)
 
 Locate-then-edit methods such as ROME install knowledge as rank-one weight updates,
 making it natural to *federate* edits — merge many independently-authored updates into

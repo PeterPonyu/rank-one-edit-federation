@@ -124,9 +124,12 @@ through 100, three seeds, pre-registered gates): where key-geometry coherence pr
 signal is testable, and where damage saturates. To our knowledge this includes the first
 edit-federation measurements at and beyond 12B scale (to 20B), where we also find
 testable interference thinning out (Section~\ref{sec:limits}).
-\item \textbf{A two-regime law.} High-gain regimes are destructive at every group size with
-geometry-predicted damage (over-amplification, consistent with the adapter result
-of~\cite{mergeprobe2026}). Low-gain regimes are \emph{constructive at small group sizes}:
+\item \textbf{A two-regime law.} High-gain regimes are typically destructive across tested
+group sizes, with geometry predicting damage magnitude in frozen-gate-qualifying cells
+(over-amplification, consistent with the adapter result of~\cite{mergeprobe2026}).
+Cells that remain Mixed or Inconclusive under that gate are reported as such in
+Table~\ref{tab:width} --- we do not claim geometry prediction at every group size for every
+cell. Low-gain regimes are \emph{constructive at small group sizes}:
 aligned cross-talk raises the member edits' target logits, with an architecture-dependent
 crossover to damage. To our knowledge the \emph{sign} of this regime is without precedent:
 prior nonmonotone merging interactions~\cite{forkmerge2023,mergeprobe2026} all report that
@@ -548,7 +551,7 @@ and 3.5 respectively. The pooled gain is therefore best read as a rank-level pro
 $|\ell_a'|$ rather than a point estimate of it: it is stable enough in \emph{ordering}
 that every robustness variant we ran preserves the cross-cell ranking, including
 recomputing the outcome at fixed $g{=}2$ with no pooling at all
-($\rho=-0.81$; Section~\ref{sec:law}), which is the form of the statistic the
+($\rho=-0.80$; Section~\ref{sec:law}), which is the form of the statistic the
 small-dose limit actually licenses.
 
 The empirical content sits in the next statement, which we do not prove.
@@ -654,9 +657,9 @@ magnitudes: correlating gain against the magnitude-decoupled effect statistic
 $\rho(\mathrm{dose},\mathrm{drop})$ gives Spearman $\raControl{}$
 ($p=\raControlP{}$); estimating gain on a random half of each cell's observations
 and the constructive fraction on the disjoint other half leaves the ordering intact
-($\rho=-0.81$, $p=4.4\times10^{-6}$), as does computing the outcome at fixed $g{=}2$
-with no pooling ($\rho=-0.81$; both quantities at $g{=}2$: $\rho=-0.76$,
-$p=4.5\times10^{-5}$). Second, it does not depend on treating layers of one model as
+($\rho=-0.82$, $p=2.5\times10^{-6}$), as does computing the outcome at fixed $g{=}2$
+with no pooling ($\rho=-0.80$; both quantities at $g{=}2$: $\rho=-0.77$,
+$p=3.2\times10^{-5}$). Second, it does not depend on treating layers of one model as
 independent: leave-one-family-out Spearman remains within \lofoRange{} for every one
 of the seven families, a family-cluster bootstrap gives 95\% CI \famBootCI{}, and
 collapsing the map to seven family medians still yields $\rho=\famLevelRho{}$

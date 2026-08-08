@@ -1,10 +1,6 @@
 # D2 federation figures: R/ggplot2 -> tikzDevice -> standalone pdflatex -> PDF.
-# The submission main.tex includes ONLY figA.pdf / figB.pdf (portal-safe, no inline TikZ).
-all: figA.pdf figB.pdf figC.pdf figD.pdf figE.pdf \
-     figF1A.pdf figF1B.pdf figF1C.pdf figF1D.pdf \
-     figF2A.pdf figF2B.pdf figF2C.pdf figF2D.pdf \
-     figF3A.pdf figF3B.pdf figF3C.pdf figF3D.pdf \
-     figF8A.pdf figF8B.pdf figF8C.pdf figF8D.pdf
+# The submission main.tex includes ONLY figA.pdf through figE.pdf (portal-safe, no inline TikZ).
+all: figA.pdf figB.pdf figC.pdf figD.pdf figE.pdf
 figA_gain_vs_frac.tex figB_g_profiles.tex: make_figures.R
 	Rscript make_figures.R
 figA.pdf: standalone_figA.tex figA_gain_vs_frac.tex

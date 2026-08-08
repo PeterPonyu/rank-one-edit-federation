@@ -1,4 +1,11 @@
-# SHA256 checksums for the edit-federation research-data deposit
+# HISTORICAL MANIFEST — NON-AUTHORITATIVE
+# This checksum file describes an older federation package and is retained only for
+# historical comparison. It does not verify the current self-contained repaired deposit.
+# Canonical current deposit: submissions/d2-neurocomputing/zenodo-deposit/
+# Regenerate a new tarball and checksum manifest only after the canonical deposit is
+# finalized. No release DOI, version, or date is asserted here.
+
+# SHA256 checksums for the historical edit-federation research-data deposit
 # Generated 2026-07-17T05:09:09Z
 # Directory members show an aggregate hash over their sorted per-file sha256 list.
 

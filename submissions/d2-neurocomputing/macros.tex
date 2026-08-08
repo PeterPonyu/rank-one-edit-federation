@@ -27,10 +27,11 @@
 \newcommand{\famBootCI}{[-0.88,-0.51]} % SOURCE: 20k family-cluster bootstrap (resample 7 families w/ replacement)
 \newcommand{\famLevelRho}{-0.93} % SOURCE: Spearman over 7 family medians = -0.929
 \newcommand{\famLevelP}{0.003} % SOURCE: same, p=0.0025
-% held-out/fixed-g orderings: SOURCE results/merging/RG_gain_holdout_REFIX20260730.json
-% (tokenizer-fixed Phi rows, 2026-07-30; pre-fix values in parentheses)
-% split-half -0.8238 p=2.46e-6 (was -0.8125 p=4.35e-6); fixed-g2 outcome -0.7979 (was
-% -0.8080); both-g2 -0.7662 p=3.21e-5 (was -0.7572 p=4.51e-5). All four still clear the
+% held-out/fixed-g orderings: SOURCE results/merging/RG_gain_holdout_20260716.json
+% (split-half over the frozen 22-bundle gain-law table; artifact provenance points to
+% RG_gain_law_20260715.json, and the reported values are the on-disk reproducible values.)
+% split-half -0.8238 p=2.46e-6; fixed-g2 outcome -0.7979 p=8.66e-6; both-g2 -0.7662
+% p=3.21e-5. All four still clear the
 % frozen <= -0.7 threshold. None of these three is emitted as a macro; the headline
 % full_pooled value is \ordSpearman. Per-cell gain/frac bootstrap CIs also in that
 % artifact; the sanity assert reproduced all 22 gains within 2% of the merged table.

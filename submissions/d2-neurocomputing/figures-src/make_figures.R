@@ -1,6 +1,7 @@
 # D2 federation paper figures — R/ggplot2 -> tikzDevice (house standard).
-# SOURCE (figA): results/merging/RG_gain_law_20260715.json
-# SOURCE (figB): results/merging/RG_crossterm_alignment_20260715.json
+# SOURCE (figA): results/merging/RG_gain_law_MERGED_REFIX20260730.json (tokenizer-fixed Phi rows)
+# SOURCE (figB): results/merging/RG_crossterm_alignment_ALL_REFIX20260801.json
+# SOURCE (figC): results/merging/RG_admission_benefit_REFIX20260730.json
 # Palette: Okabe-Ito blue #0072B2 (high-gain / destructive) + vermillion #D55E00
 # (low-gain / constructive); validated CVD-safe (dataviz validator, all checks PASS);
 # shape encodes family as secondary encoding. Run from this directory:
@@ -8,10 +9,10 @@
 suppressPackageStartupMessages({library(jsonlite); library(ggplot2); library(tikzDevice)})
 
 HARNESS <- normalizePath(file.path("..", "..", "..", "edit-harness"))
-gain <- fromJSON(file.path(HARNESS, "results/merging/RG_gain_law_20260715.json"))
+gain <- fromJSON(file.path(HARNESS, "results/merging/RG_gain_law_MERGED_REFIX20260730.json"))
 # per-cell bootstrap CIs (SOURCE: RG_gain_holdout_20260716.json, 2000-rep obs bootstrap)
 hold <- fromJSON(file.path(HARNESS, "results/merging/RG_gain_holdout_20260716.json"))
-alig <- fromJSON(file.path(HARNESS, "results/merging/RG_crossterm_alignment_20260715.json"))
+alig <- fromJSON(file.path(HARNESS, "results/merging/RG_crossterm_alignment_ALL_REFIX20260801.json"))
 
 C_HIGH <- "#0072B2"; C_LOW <- "#D55E00"; GAIN_CUT <- 8
 
@@ -22,7 +23,7 @@ fam_of <- function(n) {
 }
 lab_of <- function(n) gsub("_RG$", "", gsub("_", " ", n))
 
-## ---------------- figA: gain vs constructive fraction (19 cells) ----------------
+## ---------------- figA: gain vs constructive fraction (22 cells) ----------------
 rows <- list()
 for (n in names(gain$bundles)) {
   b <- gain$bundles[[n]]
@@ -111,8 +112,8 @@ print(p)
 dev.off()
 cat("wrote figA_gain_vs_frac.tex figB_g_profiles.tex\n")
 
-## ---------------- figC: admission-benefit bars (SOURCE: RG_admission_benefit_20260715.json) ----------------
-ben <- fromJSON(file.path(HARNESS, "results/merging/RG_admission_benefit_20260715.json"))
+## ---------------- figC: admission-benefit bars (SOURCE: RG_admission_benefit_REFIX20260730.json) ----------------
+ben <- fromJSON(file.path(HARNESS, "results/merging/RG_admission_benefit_REFIX20260730.json"))
 agg <- ben$regime_aggregates_small_g
 rows <- list(); i <- 0
 for (reg in c("high_gain","low_gain")) for (q in c("q25","q50")) {
@@ -148,8 +149,11 @@ print(
 dev.off()
 cat("wrote figC_admission_benefit.tex\n")
 
-## ---------------- figD: damage dose-response (SOURCE: RG_map_evidence_20260716.json) ----------------
-mev <- fromJSON(file.path(HARNESS, "results/merging/RG_map_evidence_20260716.json"))
+## ---------------- figD: damage dose-response (SOURCE: RG_map_evidence_REFIX20260801.json) ----------------
+# REFIX artifact carries the tokenizer-fixed Phi rows, matching figA/B/C; the
+# earlier RG_map_evidence_20260716.json plotted pre-fix Phi-3.5 per_g numbers.
+mev <- fromJSON(file.path(HARNESS, "results/merging/RG_map_evidence_REFIX20260801.json"))
+stopifnot(mev$n_cells == 22, length(mev$cells) == 22)
 rows <- list(); i <- 0
 for (n in names(mev$cells)) {
   b <- mev$cells[[n]]
@@ -191,7 +195,7 @@ print(p)
 dev.off()
 cat("wrote figD_dose_response.tex\n")
 
-## ---------------- figE: gate evidence, partial rho by g (SOURCE: RG_map_evidence_20260716.json) ----------------
+## ---------------- figE: gate evidence, partial rho by g (SOURCE: RG_map_evidence_REFIX20260801.json) ----------------
 rows <- list(); i <- 0
 for (n in names(mev$cells)) {
   b <- mev$cells[[n]]

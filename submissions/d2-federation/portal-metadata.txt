@@ -1,6 +1,11 @@
+# HISTORICAL MIRROR — NON-AUTHORITATIVE
+# This portal metadata belongs to the older federation package and is retained for historical comparison only. The self-contained repaired deposit is submissions/d2-neurocomputing/zenodo-deposit/. Do not use this file as synchronized release metadata.
+
+# D2 federation portal metadata — historical copy (original content follows).
+
 KBS PORTAL METADATA — copy-paste ready (plain text, math flattened)
 Paper: When Do Rank-One Knowledge Edits Merge? (D2 federation)
-Prepared 2026-07-17. Source of truth: main.tex/main.pdf (this file mirrors the compiled PDF verbatim).
+Prepared 2026-07-17. At that historical submission state, `main.tex/main.pdf` were the manuscript source/artifact mirrored by this file. This file is not current release metadata.
 
 ========================================
 TITLE
@@ -23,6 +28,11 @@ AUTHOR DETAILS (portal step 4)
 Author (sole + corresponding): Zeyu Fu
 Email: fuzeyu09@gmail.com
 ORCID: 0009-0001-8329-0108
+
+========================================
+HISTORICAL PACKAGE NOTICE
+========================================
+This file is not authoritative release metadata. Use the current self-contained repaired deposit under submissions/d2-neurocomputing/zenodo-deposit/ and its user-confirmed portal fields at deposition time.
 Affiliation: State Key Laboratory of Trauma and Chemical Poisoning, Institute of Combined Injury, Chongqing Engineering Research Center for Nanomedicine, College of Preventive Medicine, Army Medical University, Chongqing, China
 
 ========================================
