@@ -1,4 +1,8 @@
-# Vochn Wisdom Frontier ideas — local-hardware feasibility analysis
+# Rank-one edit federation
+
+Closed-form key geometry for collateral interference when rank-one locate-then-edit updates are merged by task arithmetic.
+
+**[Map](https://peterponyu.github.io/edit-federation-map/)** · **[Site](https://peterponyu.github.io/rank-one-edit-federation/)** · **[Source](https://github.com/PeterPonyu/rank-one-edit-federation)**# Vochn Wisdom Frontier ideas — local-hardware feasibility analysis
 
 > Generated: 2026-06-30 · Analysis machine: local machine (actually measured, not a memory-based guess)
 > One-line conclusion: **The 24 GB single GPU is the only hard constraint.** Any idea that is "algorithm / post-training / fine-tuning a small-to-medium model" can almost all be done on this machine; any idea that requires "pretraining a large model from scratch / large-scale video world models / real hardware" cannot be done on this machine (or can only be done as inference / evaluation / a scaled-down version).
